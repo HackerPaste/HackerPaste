@@ -1,3 +1,7 @@
+# HackerPaste
+
+Pastie.org used to be the go-to for pasting snippets of code / text. Now that it's down, we'd like to build our own app.
+
 # Node Catapult
 
 A boilerplate starter project that includes Node, Express, Browserify, and Mithril:
