@@ -13,9 +13,11 @@ A boilerplate starter project that includes Node, Express, Browserify, and Mithr
 ## Getting Started
 
 ```
-$ git clone https://github.com/mindeavor/node-catapult my-project
+$ git clone https://github.com/HackerPaste/HackerPaste my-project
 $ cd my-project
 $ npm install
+$ npm install -g knex
+$ knex migrate:latest
 $ npm start
 ```
 
