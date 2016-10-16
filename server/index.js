@@ -4,25 +4,18 @@ var Path = require('path')
 
 var routes = express.Router()
 
-//
 // Provide a browserified file at a specified path
-//
 routes.get('/app-bundle.js', browserify('./client/app.js', {
   transform: [
     ['babelify', { presets: ['es2015', 'react'] }]
   ]
 }));
 
-//
-// Example endpoint (also tested in test/server/index_test.js)
-//
-routes.get('/api/tags-example', function(req, res) {
-  res.send(['node', 'express', 'browserify', 'mithril'])
-})
+// Use API endpoints
+routes.use('/api', require('./apis'));
 
-//
+
 // Static assets (html, etc.)
-//
 var assetFolder = Path.resolve(__dirname, '../client/public')
 routes.use(express.static(assetFolder))
 
