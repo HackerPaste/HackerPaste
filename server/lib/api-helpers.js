@@ -6,6 +6,12 @@ API.prep = function (statusCode, response) {
   }
 }
 
+// fetch groups for a user and attach them to the `req` object
+API.fetchGroups = function (req, res, next) {
+  // TODO: actually fetch groups from makerpass
+  next();
+}
+
 // Use this to verify that a user has been logged in
 // each of these properties on the `req` object should be
 // set upon successful makerpass authentication
