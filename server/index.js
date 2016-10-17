@@ -1,21 +1,46 @@
+require('dotenv').config();
 var browserify = require('browserify-middleware')
 var express = require('express')
+var cookieSession = require('cookie-session');
 var Path = require('path')
+var AuthPort = require('./lib/makerpass');
+var MP = require('node-makerpass')
 
 var routes = express.Router()
 
+//
+// Use cookies to store sessions
+//
+routes.use(cookieSession({
+  name: 'hackerpaste_session',
+  secret: 'super duper secret'
+}));
+
+//
 // Provide a browserified file at a specified path
+//
 routes.get('/app-bundle.js', browserify('./client/app.js', {
   transform: [
     ['babelify', { presets: ['es2015', 'react'] }]
   ]
 }));
 
-// Use API endpoints
-routes.use('/api', require('./apis'));
+//
+// Use AuthPort for authentication routes.
+// Route to /auth/makerpass from the frontend
+// to utilize this authentication
+//
+routes.get('/auth/:service', AuthPort.app);
 
 
+// Attempt to authenticate the user then use the API endpoints
+// Any authenticated users will have `req.user` and `req.scopes` set
+routes.use('/api', MP.authWithSession({ required: false }), require('./apis'));
+
+
+//
 // Static assets (html, etc.)
+//
 var assetFolder = Path.resolve(__dirname, '../client/public')
 routes.use(express.static(assetFolder))
 

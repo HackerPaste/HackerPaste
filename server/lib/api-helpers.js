@@ -5,3 +5,13 @@ API.prep = function (statusCode, response) {
     response.status(statusCode).send(input)
   }
 }
+
+// Use this to verify that a user has been logged in
+// each of these properties on the `req` object should be
+// set upon successful makerpass authentication
+API.requireAuth = function(req, res, next) {
+  if (req.user && req.scopes && req.makerpassToken) {
+    return next();
+  }
+  res.status(401).send( { reason: 'not_logged_in' } );
+};

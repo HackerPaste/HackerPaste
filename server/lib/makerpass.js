@@ -1,7 +1,3 @@
-//
-// NOTE: This was copied verbatim from https://github.com/reactorcore/authport-makerpass
-//       so it might require some modifications before it functions. 
-//
 var AuthPort = require('authport')
 var MakerpassService = require('authport-makerpass')
 
@@ -28,4 +24,6 @@ AuthPort.on('auth', function(req, res, data) {
 AuthPort.on('error', function(req, res, data) {
   console.log("OAuth failed.", data)
   res.status(500).send({ error: 'oauth_failed' })
-})
+});
+
+module.exports = AuthPort;
