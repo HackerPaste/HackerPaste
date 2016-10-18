@@ -1,4 +1,5 @@
 var API = module.exports
+var MP = require('node-makerpass');
 
 API.prep = function (statusCode, response) {
   return function (input) {
@@ -8,8 +9,12 @@ API.prep = function (statusCode, response) {
 
 // fetch groups for a user and attach them to the `req` object
 API.fetchGroups = function (req, res, next) {
-  // TODO: actually fetch groups from makerpass
-  next();
+  MP.me.groups(req.makerpassToken)
+    .then(groups => {
+      req.groups = groups;
+      next();
+    })
+    .catch( API.prep(401, res) );
 }
 
 // Use this to verify that a user has been logged in
