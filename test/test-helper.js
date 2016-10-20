@@ -18,7 +18,8 @@ global.expect = chai.expect
 // Option 2: Make everything should-able
 // global.should = chai.should()
 
-
+var fs = require('fs');
+var db = require(__server + '/lib/db');
 //
 // Helper Functions
 //
@@ -45,6 +46,19 @@ TestHelper.createApp = function (loader) {
   }
   return app
 }
+
+TestHelper.emptyTables = function * () {
+  yield db('favorites').delete()
+  yield db('pasties_subjects').delete()
+  yield db('pasties').delete()
+};
+
+TestHelper.fixtures = [
+  fs.readFileSync(__test + '/fixtures/pastie_contents/loremipsum.txt').toString(),
+  fs.readFileSync(__test + '/fixtures/pastie_contents/jquery.js').toString(),
+  fs.readFileSync(__test + '/fixtures/pastie_contents/loremipsum.md').toString()
+];
+
 
 //
 // Mocha "helpers" to support coroutines tests

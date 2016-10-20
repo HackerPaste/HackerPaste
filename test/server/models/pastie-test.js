@@ -3,17 +3,8 @@ var fs = require('fs');
 var db = require(__server + '/lib/db');
 var Pastie = require(__server + '/models/pastie');
 
-var emptyTables = function * () {
-  yield db('favorites').delete()
-  yield db('pasties_subjects').delete()
-  yield db('pasties').delete()
-};
-
-var files = [
-  fs.readFileSync(__test + '/fixtures/pastie_contents/loremipsum.txt').toString(),
-  fs.readFileSync(__test + '/fixtures/pastie_contents/jquery.js').toString(),
-  fs.readFileSync(__test + '/fixtures/pastie_contents/loremipsum.md').toString()
-];
+var emptyTables = TestHelper.emptyTables;
+var files = TestHelper.fixtures;
 
 var pasties = [
   {
@@ -84,7 +75,7 @@ describe('Pastie Model', function () {
 
       beforeEach_(emptyTables);
 
-      xit_('should reject with an error for users without permission', function * () {
+      it_('should reject with an error for users without permission', function * () {
         var error, pastie_id;
 
         pastie_id = yield Pastie.create(pasties[1])
@@ -325,10 +316,14 @@ describe('Pastie Model', function () {
       // Bob's feed is 0, 1
       // Carly's feed is 0
       pastie_ids = [];
-      pastie_ids.push(yield Pastie.create(pasties[0], 'user_alice'));
-      pastie_ids.push(yield Pastie.create(pasties[1], 'user_bob'));
-      pastie_ids.push(yield Pastie.create(pasties[2], 'user_alice'));
-      pastie_ids.push(yield Pastie.create(pasties[2]));
+      pastie_ids.push(yield Pastie.create(pasties[0], 'user_alice')
+        .then(pastie => pastie.id));
+      pastie_ids.push(yield Pastie.create(pasties[1], 'user_bob')
+        .then(pastie => pastie.id));
+      pastie_ids.push(yield Pastie.create(pasties[2], 'user_alice')
+        .then(pastie => pastie.id));
+      pastie_ids.push(yield Pastie.create(pasties[2])
+        .then(pastie => pastie.id));
 
       var shares = [
         {
