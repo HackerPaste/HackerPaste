@@ -16,6 +16,36 @@ Pastie.find = function (id) {
 };
 
 
+Pastie.create = function (attrs){
+  return db('pasties').returning('*').insert({
+    user_uid: attrs.user_uid,
+    title: attrs.title,
+    contents: attrs.contents,
+    contents_parsed: 'TODO',
+    file_type: attrs.file_type,
+    tags: attrs.tags,
+    public: attrs.public,
+  })
+    .then(function (rows) {
+      return rows[0];
+    })
+};
+
+
+Pastie.public = function () {
+  return db('pasties').where({public: true}).limit(4).orderBy('id', 'desc')
+    .then(function (rows) {
+      
+        rows.forEach(function(row){
+          console.log(row.contents);
+        });
+      return rows;
+    });
+};
+
+
+
+
 
 // Error class for when a pastie isn't found
 Pastie.NotFound = class NotFound extends Error {
