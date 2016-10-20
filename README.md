@@ -16,8 +16,14 @@ A boilerplate starter project that includes Node, Express, Browserify, and Mithr
 $ git clone https://github.com/HackerPaste/HackerPaste my-project
 $ cd my-project
 $ npm install
-$ npm install -g knex
-$ knex migrate:latest
+
+# Setup databases
+$ createdb hackerpaste_dev
+$ npm run migrate
+
+$ createdb hackerpaste_test
+$ NODE_ENV=test npm run migrate
+
 $ npm start
 ```
 

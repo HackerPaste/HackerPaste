@@ -1,12 +1,11 @@
-// Be sure to update with your config settings and save as knexfile.js
+// Update with your config settings.
 
 module.exports = {
+
   development: {
-    client: 'pg',
+    client: 'postgresql',
     connection: {
       database: 'hackerpaste_dev',
-      user:     'postgres',
-      password: 'postgres'
     },
     pool: {
       min: 2,
@@ -16,12 +15,11 @@ module.exports = {
       tableName: 'knex_migrations'
     }
   },
+
   test: {
-    client: 'pg',
+    client: 'postgresql',
     connection: {
       database: 'hackerpaste_test',
-      user:     'postgres',
-      password: 'postgres'
     },
     pool: {
       min: 2,
@@ -31,13 +29,10 @@ module.exports = {
       tableName: 'knex_migrations'
     }
   },
+
   production: {
-    client: 'pg',
-    connection: {
-      database: 'hackerpaste',
-      user:     'postgres',
-      password: 'postgres'
-    },
+    client: 'postgresql',
+    connection: process.env.DATABASE_URL,
     pool: {
       min: 2,
       max: 10

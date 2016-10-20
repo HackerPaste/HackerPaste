@@ -5,7 +5,8 @@
   "main": "server/index.js",
   "scripts": {
     "start": "nodemon server/ --ignore client/",
-    "test": "./test/run.sh"
+    "test": "./test/run.sh",
+    "migrate": "./node_modules/.bin/knex migrate:latest"
   },
   "author": "Gilbert <gilbertbagrza@gmail.com>",
   "license": "MIT",
