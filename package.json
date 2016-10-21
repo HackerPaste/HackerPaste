@@ -24,6 +24,7 @@
     "express": "^4.12.4",
     "knex": "^0.12.5",
     "mithril": "^0.2.0",
+    "node-less-endpoint": "^0.2.0",
     "node-makerpass": "^1.3.0",
     "pg": "^6.1.0",
     "react": "^15.3.2",

@@ -1,0 +1,39 @@
+html, body {
+  min-height: 100%;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto @md-pad;
+  padding: 0 @md-pad 1rem;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  margin: -@md-pad 0 @md-pad -@md-pad;
+
+  & > div {
+    padding: 1em 2em 0 1em;
+  }
+
+  .content {
+    flex: 1;
+  }
+
+  .aside {
+    flex: 0 0 auto;
+    width: 33.33%;
+  }
+}
+
+.box {
+  padding-top: 15px;
+  margin-bottom: 15px;
+  overflow-y: scroll;
+  border-style: solid;
+  border-radius: 5px;
+  border-width: 2px;
+  border-color: @darkgrey;
+}

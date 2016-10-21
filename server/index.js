@@ -3,6 +3,7 @@ var browserify = require('browserify-middleware')
 var express = require('express')
 var cookieSession = require('cookie-session');
 var Path = require('path')
+var LESS = require('node-less-endpoint');
 var AuthPort = require('./lib/makerpass');
 var MP = require('node-makerpass')
 
@@ -23,6 +24,11 @@ routes.get('/app-bundle.js', browserify('./client/app.js', {
   transform: [
     ['babelify', { presets: ['es2015', 'react'] }]
   ]
+}));
+
+routes.get('/style.css', LESS.serve('./client/less/index.less', {
+  debug: true,
+  watchDir: './client/less'
 }));
 
 //
