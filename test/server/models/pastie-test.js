@@ -310,8 +310,8 @@ describe('Pastie Model', function () {
       'user_bob': ['g1', 'g3'],
       'user_carly': []
     };
-
-    before_(function * () {
+    beforeEach_(emptyTables);
+    beforeEach_(function * () {
       // Alice's feed is 0
       // Bob's feed is 0, 1
       // Carly's feed is 0
@@ -343,10 +343,7 @@ describe('Pastie Model', function () {
         }
       ];
 
-      yield Promise.all(shares.map(
-        share => db('pasties_subjects').insert(share)
-          .then(res => res) // ensure the inserts happen because knex.
-      ))
+      yield db('pasties_subjects').insert(shares);
     });
 
     it('should be a function', function () {
@@ -480,7 +477,8 @@ describe('Pastie Model', function () {
   // Begin Pastie.getPublic
   //
   describe('Pastie.getPublic', function () {
-    before_(function * () {
+    beforeEach_(emptyTables)
+    beforeEach_(function * () {
       yield db('pasties').insert(pasties)
     });
 
@@ -560,9 +558,14 @@ describe('Pastie Model', function () {
     ];
     var alice_ids = [];
     var bob_ids = [];
-    var carly_ids = []
+    var carly_ids = [];
 
-    before_(function * () {
+    beforeEach_(emptyTables);
+    beforeEach_(function * () {
+      alice_ids = [];
+      bob_ids = [];
+      carly_ids = [];
+
       pasties[0].user_uid = 'user_alice';
       pasties[1].user_uid = 'user_alice';
       alice_ids.push(yield db('pasties').insert(pasties[0], 'id')
@@ -576,6 +579,7 @@ describe('Pastie Model', function () {
         .then(id => id[0]))
       bob_ids.push(yield db('pasties').insert(pasties[2], 'id')
         .then(id => id[0]))
+
 
       pasties[0].user_uid = 'user_carly'
       pasties[2].user_uid = 'user_carly';
@@ -688,7 +692,9 @@ describe('Pastie Model', function () {
         tags: ['test', 'markdown', 'dummy'],
       }
     ];
-    before_(function * () {
+
+    beforeEach_(emptyTables);
+    beforeEach_(function * () {
       pastie_ids = [];
       pastie_ids.push(yield db('pasties').insert(pasties[0], 'id')
         .then(id => id[0]));
