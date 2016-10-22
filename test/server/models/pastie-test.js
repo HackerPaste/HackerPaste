@@ -353,23 +353,13 @@ describe('Pastie Model', function () {
       expect(Pastie.feedForUser).to.be.a('function');
     });
 
-    it_('should throw an error for unauthenticated users', function * () {
-      var error = yield Pastie.feedForUser(undefined, undefined)
-        .catch(err => err);
-      expect(error).to.be.an.instanceof(Pastie.PermissionDenied);
-
-      error = yield Pastie.feedForUser(undefined, ['g1', 'g2', 'g3'])
-        .catch(err => err);
-      expect(error).to.be.an.instanceof(Pastie.PermissionDenied);
-    })
-
     it_('should resolve to an array', function * () {
       var feed = yield Pastie.feedForUser('user_alice', usersGroups['user_alice']);
       expect(Array.isArray(feed)).to.be.true;
     });
 
     describe('Public Pasties', function () {
-      it_('should not be visible in the feed', function * () {
+      it_('should not be visible in the feed by default', function * () {
         var feed = yield Pastie.feedForUser('user_alice', usersGroups['user_alice']);
         // filter the result to only include pasties with `public: true`
         // HINT: this should be empty.
@@ -575,18 +565,24 @@ describe('Pastie Model', function () {
     before_(function * () {
       pasties[0].user_uid = 'user_alice';
       pasties[1].user_uid = 'user_alice';
-      alice_ids.push(yield db('pasties').insert(pasties[0]))
-      alice_ids.push(yield db('pasties').insert(pasties[1]))
+      alice_ids.push(yield db('pasties').insert(pasties[0], 'id')
+        .then(id => id[0]))
+      alice_ids.push(yield db('pasties').insert(pasties[1], 'id')
+        .then(id => id[0]))
 
       pasties[1].user_uid = 'user_bob';
       pasties[2].user_uid = 'user_bob';
-      bob_ids.push(yield db('pasties').insert(pasties[1]))
-      bob_ids.push(yield db('pasties').insert(pasties[2]))
+      bob_ids.push(yield db('pasties').insert(pasties[1], 'id')
+        .then(id => id[0]))
+      bob_ids.push(yield db('pasties').insert(pasties[2], 'id')
+        .then(id => id[0]))
 
       pasties[0].user_uid = 'user_carly'
       pasties[2].user_uid = 'user_carly';
-      carly_ids.push(yield db('pasties').insert(pasties[0]))
-      carly_ids.push(yield db('pasties').insert(pasties[2]))
+      carly_ids.push(yield db('pasties').insert(pasties[0], 'id')
+        .then(id => id[0]))
+      carly_ids.push(yield db('pasties').insert(pasties[2], 'id')
+        .then(id => id[0]))
 
       delete pasties[0].user_uid;
       delete pasties[1].user_uid;
@@ -597,13 +593,7 @@ describe('Pastie Model', function () {
       expect(Pastie.ownedByUser).to.be.a('function');
     });
 
-    it_('should throw an error for anonymous users', function * () {
-      var error = yield Pastie.ownedByUser(undefined)
-        .catch(err => err);
-      expect(error).to.be.an.instanceof(Pastie.PermissionDenied);
-    });
-
-    it_('should return an array for logged in users', function * () {
+    it_('should return an array', function * () {
       var owned = yield Pastie.ownedByUser('user_alice');
       expect(Array.isArray(owned)).to.be.true;
     });
@@ -744,17 +734,7 @@ describe('Pastie Model', function () {
       expect(Pastie.favoritedByUser).to.be.a('function');
     });
 
-    it_('should throw an error for anonymous users', function * () {
-      var error = yield Pastie.favoritedByUser(undefined, undefined)
-        .catch(err => err);
-      expect(error).to.be.an.instanceof(Pastie.PermissionDenied);
-
-      var error = yield Pastie.favoritedByUser(undefined, ['g1', 'g2', 'g3'])
-        .catch(err => err);
-      expect(error).to.be.an.instanceof(Pastie.PermissionDenied);
-    });
-
-    it_('should return an array for logged in users', function * () {
+    it_('should return an array', function * () {
       var favorites = yield Pastie.favoritedByUser('user_alice', ['g1', 'g2']);
       expect(Array.isArray(favorites)).to.be.true;
     });
