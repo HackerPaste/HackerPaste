@@ -1,10 +1,15 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
+const React = require('react');
+const ReactDOM = require('react-dom');
 
-class App extends React.Component {
-  render() {
-    return <h1>It's alive!!!</h1>
-  }
-}
+const Auth = require('./lib/auth');
+const Nav = require('./components/Nav');
+// const Router = require('./components/Router');
+
+const App = () => (
+  <div>
+    <Nav />
+    {/* <Router /> */}
+  </div>
+);
 
 ReactDOM.render(<App />, document.getElementById('app'));

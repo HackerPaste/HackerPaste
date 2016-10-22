@@ -11,6 +11,7 @@
   "author": "Gilbert <gilbertbagrza@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "alertify": "github:mindeavor/alertify.js",
     "authport": "^1.0.1",
     "authport-makerpass": "^1.0.0",
     "babel-preset-es2015": "^6.16.0",
@@ -26,6 +27,7 @@
     "mithril": "^0.2.0",
     "node-less-endpoint": "^0.2.0",
     "node-makerpass": "^1.3.0",
+    "page": "^1.7.1",
     "pg": "^6.1.0",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
