@@ -1,3 +1,4 @@
+require('./extras')
 var API = module.exports
 var MP = require('node-makerpass');
 
@@ -14,7 +15,10 @@ API.fetchGroups = function (req, res, next) {
       req.groups = groups;
       next();
     })
-    .catch( API.prep(401, res) );
+    .catch( err => {
+      req.groups = [];
+      next()
+    });
 }
 
 // Use this to verify that a user has been logged in
