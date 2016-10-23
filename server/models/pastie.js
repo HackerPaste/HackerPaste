@@ -1,12 +1,14 @@
 // Include knex
 var db = require('../lib/db');
+var Promise = require('bluebird');
 
 var Pastie = module.exports;
 
-
+// TODO: Find multiple pasties by user, group, tags, and/or search terms
 
 // For finding a single pastie from a given id
 Pastie.find = function (id) {
+
   return db('pasties').where({id: id}).limit(1)
     .then(function (rows) {
       // if no pastie is found with this id, throw an error
@@ -34,13 +36,19 @@ Pastie.feedForUser = function (userId, groupIds, obj ) {
     });
 }
 
-
-Pastie.create = function (attrs){
-  return db('pasties').returning('*').insert({
-    user_uid: attrs.user_uid,
+Pastie.create = function (attrs, user_uid){
+  if(attrs === undefined || attrs.title === undefined || attrs.contents === undefined){
+    return Promise.reject(new Pastie.InvalidFormat());
+  }
+  if(user_uid === undefined){attrs.public = true}
+  if(typeof attrs.public !== 'boolean'){attrs.public = true}
+  if(attrs.file_type === undefined){attrs.file_type = 'txt'}
+  if(attrs.tags === undefined){attrs.tags = []}
+    return db('pasties').returning('*').insert({
+    user_uid: user_uid,
     title: attrs.title,
     contents: attrs.contents,
-    contents_parsed: 'TODO',
+    contents_parsed: attrs.contents,
     file_type: attrs.file_type,
     tags: attrs.tags,
     public: attrs.public,
@@ -51,13 +59,9 @@ Pastie.create = function (attrs){
 };
 
 
-Pastie.public = function () {
+Pastie.getPublic = function () {
   return db('pasties').where({public: true}).limit(4).orderBy('id', 'desc')
     .then(function (rows) {
-      
-        rows.forEach(function(row){
-          console.log(row.contents);
-        });
       return rows;
     });
 };
@@ -93,6 +97,16 @@ Pastie.favoritedByUser = function(id, groupIds){
 }
 
 
+Pastie.ownedByUser = function (user_uid) {
+  if(user_uid === undefined){throw new Pastie.InvalidArgument(user_uid)}
+  return db('pasties').where({user_uid: user_uid})
+    .then(function (rows) {
+      return rows;
+    });
+};
+
+
+
 // Error class for when a pastie isn't found
 Pastie.NotFound = class NotFound extends Error {
   constructor(id) {
@@ -100,5 +114,33 @@ Pastie.NotFound = class NotFound extends Error {
     this.name = 'NotFound'
     this.message = 'pastie_not_found'
     this.details = { id: id }
+  }
+};
+
+
+Pastie.InvalidArgument = class InvalidArgument extends Error {
+  constructor(argName) {
+    super()
+    this.name = 'InvalidArgument'
+    this.message = 'invalid_argument'
+    this.details = { reason: argName + ' is required' }
+  }
+};
+
+Pastie.PermissionDenied = class PermissionDenied extends Error {
+  constructor() {
+    super()
+    this.name = 'PermissionDenied'
+    this.message = 'permission_denied'
+    this.details = { reason: 'not_authorized' }
+  }
+};
+
+Pastie.InvalidFormat = class InvalidFormat extends Error {
+  constructor(user_uid) {
+    super()
+    this.name = 'InvalidFormat'
+    this.message = 'invalid_format'
+    this.details = { reason: 'invalid_request_format' }
   }
 };

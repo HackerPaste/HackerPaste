@@ -9,7 +9,7 @@ Favorite.create = function(pastie_id, user_id){
 
   }).then(result => result);
 }
-
+// TODO throw error if pastie does not exist
 Favorite.delete = function(pastie_id, user_id){
   return db('favorites').where({
   user_uid: user_id,
