@@ -12,8 +12,8 @@ const nav = module.exports = (props) => (
         <input className="search" type="text" placeholder="Search pasties"></input>
       </form>
       <div className="nav-side">
-        <a href="#" className="create-button">CREATE</a>
-        <a href="#" className="sign-in">SIGN IN</a>
+        <a href="/api/me" className="create-button">CREATE</a>
+        <a href="/auth/makerpass" className="sign-in" id="signInBtn">SIGN IN</a>
       </div>
     </div>
   </nav>
