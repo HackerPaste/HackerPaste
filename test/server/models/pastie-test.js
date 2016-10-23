@@ -201,7 +201,7 @@ describe('Pastie Model', function () {
 
         // try to create the pastie with the missing info
         error = yield Pastie.create(test_pastie)
-          .then(err => err);
+          .catch(err => err);
         expect(error).to.be.an.instanceof(Pastie.InvalidFormat);
 
         // restore the deleted key
@@ -752,11 +752,11 @@ describe('Pastie Model', function () {
     });
 
     it_('should return the favorites for a user', function * () {
-      var favorites, pasties, favorite_ids;
+      var favorites, pastie, favorite_ids;
       favorites = yield Pastie.favoritedByUser('user_carly', []);
       expect(favorites.length).to.equal(1);
       pastie = favorites[0];
-      expect(pastie.id).to.equal(pastie_ids[0].id);
+      expect(pastie.id).to.equal(pastie_ids[0]);
       expect(pastie.title).to.equal(pasties[0].title);
       expect(pastie.contents).to.equal(pasties[0].contents);
       expect(pastie.file_type).to.equal(pasties[0].file_type);
