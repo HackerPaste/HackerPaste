@@ -1,10 +1,13 @@
 {
   "name": "node-catapult",
   "version": "1.0.0",
+  "engines": {
+    "node": "^6.6"
+  },
   "description": "A rapid project starter for node and browserify.",
   "main": "server/index.js",
   "scripts": {
-    "start": "nodemon server/ --ignore client/",
+    "start": "./node_modules/.bin/nodemon server/ --ignore client/",
     "test": "./test/run.sh",
     "migrate": "./node_modules/.bin/knex migrate:latest"
   },
@@ -28,6 +31,7 @@
     "mithril": "^0.2.0",
     "node-less-endpoint": "^0.2.0",
     "node-makerpass": "^1.3.0",
+    "nodemon": "^1.11.0",
     "page": "^1.7.1",
     "pg": "^6.1.0",
     "react": "^15.3.2",
