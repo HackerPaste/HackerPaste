@@ -30,7 +30,7 @@ module.exports = class FeedList extends React.Component {
         <ul className="box-list">
           {
             this.state.pasties.map(pastie => {
-              return <li><Link href='#'>{pastie.title}</Link>
+              return <li><Link href={`/pasties/${pastie.id}`}>{pastie.title}</Link>
                 <p>{pastie.contents}</p>
               </li>
             })
