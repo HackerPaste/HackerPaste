@@ -131,6 +131,14 @@ Pastie.ownedByUser = function (user_uid) {
 };
 
 
+Pastie.sharedWithGroup = function (group_uid) {
+  return db('pasties').join('pasties_subjects', { 'pasties.id': 'pasties_subjects.pastie_id' })
+    .where('pasties_subjects.subject_type', 'Group')
+    .andWhere('pasties_subjects.subject_uid', group_uid)
+    .select('pasties.*')
+    .then(rows => rows);
+}
+
 
 // Error class for when a pastie isn't found
 Pastie.NotFound = class NotFound extends Error {

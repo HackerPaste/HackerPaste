@@ -25,12 +25,24 @@ PastiesAPI.get('/pasties/:id', API.fetchGroups, function (req, res) {
   .catch(API.catchUnexpectedErrors)
 })
 
+PastiesAPI.get('/groups/:group_uid/pasties', API.requireAuth, API.fetchGroups, function (req, res) {
+  var group_uids = req.groups.map(Object.pick('uid'));
+  if (~group_uids.indexOf(req.params.group_uid)) {
+    Pastie.sharedWithGroup(req.params.group_uid)
+      .then(API.prep(200, res))
+      .catch(API.catchUnexpectedErrors(res));
+  } else {
+    API.prep(403, res)(new Pastie.PermissionDenied());
+  }
+});
+
 PastiesAPI.post('/pasties', function(req, res) {
   Pastie.create(req.body, req.user.uid)
     .then(API.prep(201, res))
     .catch(Pastie.InvalidFormat, API.prep(400, res))
     .catch(API.catchUnexpectedErrors)
 });
+
 
 PastiesAPI.put(
   '/groups/:group_uid/pasties/:pastie_id',
