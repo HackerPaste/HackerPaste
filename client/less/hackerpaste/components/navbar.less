@@ -4,16 +4,30 @@ nav {
   box-shadow: 0 0 3px @primary;
   margin-bottom: 1rem;
 
+  a, a:hover {
+    text-decoration: none;
+  }
+
   .create-button {
     margin-right: 15px;
+    color: @white;
+    background-color: @primary;
+    padding: 0.25em 0.5em;
+    border-radius: 0.25em;
+
+    &:hover {
+      background-color: lighten(@primary, 5%);
+    }
   }
 
   .container {
     display: flex;
+    height: 100%;
     margin-bottom: 0;
     padding-bottom: 0;
     justify-content: space-between;
     align-items: center;
+    position: relative;
   }
 
   .nav-side {
@@ -21,10 +35,6 @@ nav {
     flex: 0 0 auto;
     align-items: center;
     vertical-align: middle;
-
-    .sign-in {
-
-    }
   }
 
   .logo {
@@ -58,6 +68,44 @@ nav {
     input.search {
       flex: auto;
       max-width: 400px;
+    }
+  }
+
+  .user-profile {
+    min-width: 200px;
+    text-align: left;
+    position: relative;
+    cursor: pointer;
+
+    .avatar {
+      flex: 0;
+      max-width: 48px;
+      margin-right: @md-pad;
+      height: auto;
+      vertical-align: middle;
+    }
+
+    .nav-profile-dropdown {
+      position: absolute;
+      display: none;
+      box-sizing: border-box;
+      margin-bottom: 0;
+      padding: (0.5 * @md-pad) @md-pad;
+      width: 100%;
+      text-align: left;
+      background: @white;
+      cursor: default;
+      border-bottom-left-radius: 0.25em;
+      border-bottom-right-radius: 0.25em;
+      box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
+
+      &.open {
+        display:block;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
     }
   }
 }

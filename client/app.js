@@ -28,7 +28,11 @@ class Router extends React.Component {
         .then(() => {
           ctx.user = Auth.user;
           ctx.groups = Auth.groups;
-          this.setState({ firstLoad: false });
+          this.setState({
+            firstLoad: false,
+            user: Auth.user,
+            groups: Auth.groups
+          });
           next();
         })
       } else {
@@ -81,6 +85,9 @@ class Router extends React.Component {
   }
 
   render () {
+    if (this.state.firstLoad) {
+      return <div />
+    }
     return (
       <div className="main">
         <Nav user={this.state.user} groups={this.state.groups} />

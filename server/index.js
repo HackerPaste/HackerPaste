@@ -37,11 +37,17 @@ routes.get('/style.css', LESS.serve('./client/less/index.less', {
 // to utilize this authentication
 //
 routes.get('/auth/:service', AuthPort.app);
-
+routes.get('/logout', function(req, res) {
+  req.session = null;
+  res.redirect('/');
+})
 
 // Attempt to authenticate the user then use the API endpoints
 // Any authenticated users will have `req.user` and `req.scopes` set
-routes.use('/api', MP.authWithSession({ required: false }), require('./apis'));
+routes.use('/api', MP.authWithSession({ required: false }), function (req, res, next) {
+  req.user = req.user || {};
+  next();
+}, require('./apis'));
 
 
 //
