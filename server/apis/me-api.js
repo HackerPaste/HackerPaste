@@ -17,7 +17,7 @@ MeAPI.get('/me', function(req, res) {
 });
 
 MeAPI.get('/me/pasties', function(req, res) {
-  Pastie.feedForUser(req.user.uid, req.groups.map(Object.pick('uid')))
+  Pastie.ownedByUser(req.user.uid, req.groups.map(Object.pick('uid')))
     .then(API.prep(200, res))
     .catch(API.catchUnexpectedErrors);
 })

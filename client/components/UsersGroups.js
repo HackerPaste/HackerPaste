@@ -1,21 +1,22 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
-var FeedList = require('./FeedList')
+var MyFeedList = require('./MyFeedList')
 var MyProfileBox = require('./MyProfileBox')
 var MyGroupsBox = require('./MyGroupsBox')
 
 module.exports = (props) => (
+
   <div className="container">
     <div className="row">
 
       <div className="aside">
-        <MyProfileBox />
-        <MyGroupsBox />
+        <MyProfileBox user={props.user}/>
+        <MyGroupsBox groups={props.groups}/>
       </div>
 
       <div className="content">
-        <FeedList />
+        <MyFeedList user={props.user}/>
       </div>
 
     </div>

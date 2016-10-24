@@ -8,6 +8,7 @@ var Link = require('./components/Link');
 var HomeFeed = require('./components/HomeFeed');
 var PastieViewer = require('./components/PastieViewer');
 var Create = require('./components/Create');
+var Me = require('./components/UsersGroups');
 
 class Router extends React.Component {
   constructor(props) {
@@ -61,6 +62,12 @@ class Router extends React.Component {
     route('/pasties/:pastie_id', ctx => {
       this.setState({
         component: <PastieViewer user={ctx.user} pastie_id={ctx.params.pastie_id} />
+      })
+    });
+
+    route('/me', ctx => {
+      this.setState({
+        component: <Me user={ctx.user} groups={ctx.groups} />
       })
     });
 

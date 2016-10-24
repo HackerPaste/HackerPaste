@@ -24,7 +24,7 @@ Pastie.favorites = function () {
 }
 
 Pastie.ownedByUser = function (uid) {
-  return http.get(`/api/users/${uid}/pasties`)
+  return http.get(`/api/me/pasties`)
     .then(res => res.data);
 }
 

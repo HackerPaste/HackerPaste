@@ -22,21 +22,17 @@ module.exports = class FeedList extends React.Component {
 
   render () {
     return (
-      <div className="box">
-      <div className="box-title">
-        <h5>My Pasties</h5>
-      </div>
-      <div className="box-list-container">
-        <ul className="box-list">
-          {
-            this.state.pasties.map(pastie => {
-              return <li><Link href='#'>{pastie.title}</Link>
-                <p>{pastie.contents}</p>
-              </li>
-            })
-          }
-        </ul>
-      </div>
+      <div className="feed">
+      <h3>My Pasties</h3>
+      <ul className="feed-list">
+        {
+          this.state.pasties.map(pastie => {
+            return <li><Link href='#'>{pastie.title}</Link>
+              <p>{pastie.contents}</p>
+            </li>
+          })
+        }
+      </ul>
       </div>
     )
   }
