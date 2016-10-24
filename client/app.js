@@ -66,7 +66,7 @@ class Router extends React.Component {
 
     route('/pasties/:pastie_id', ctx => {
       this.setState({
-        component: <PastieViewer user={ctx.user} pastie_id={ctx.params.pastie_id} />
+        component: <PastieViewer user={ctx.user} groups={ctx.groups} pastie_id={ctx.params.pastie_id} />
       })
     });
 

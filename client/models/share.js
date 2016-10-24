@@ -2,12 +2,14 @@ var http = require('axios');
 
 var Share = module.exports;
 
-Share.create = function (id, subjects) {
+Share.create = function (pastie_id, subject) {
   // TODO: finalize endpoint
-  return http.put(`/api/shares/pasties/${id}`, subjects);
+  return http.put(`/api/${subject.subject_type}s/${subject.subject_uid}/pasties/${pastie_id}`)
+    .then(res => res.data);
 };
 
-Share.delete = funciton (id) {
+Share.delete = function (pastie_id, subject) {
   // TODO: finalize endpoint
-  return http.delete(`/api/shares/pasties/${id}`);
+  return http.delete(`/api/${subject.subject_type}s/${subject.subject_uid}/pasties/${pastie_id}`)
+    .then(res => res.data);
 };

@@ -31,7 +31,6 @@ Pastie.ownedByUser = function (uid) {
 Pastie.getPublic = function () {
   return http.get('/api/pasties/public')
     .then(res => {
-      console.log(res.data);
       return res.data
     });
 }
@@ -39,7 +38,6 @@ Pastie.getPublic = function () {
 Pastie.getSharedWithGroup = function (group_uid) {
   return http.get(`/api/groups/${group_uid}/pasties`)
     .then(res => {
-      console.log(res.data);
       return res.data
     });
 }

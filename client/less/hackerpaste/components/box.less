@@ -1,5 +1,11 @@
 .box {
 
+  &.login-box {
+    background-color: #fff;
+    padding: @md-pad;
+    text-align:center;
+  }
+
   .box-title {
     text-align: center;
     font-weight: bolder;
@@ -15,8 +21,6 @@
   }
 
   .box-list-container {
-
-
     background-color: @white;
 
     .box-list {
@@ -29,6 +33,19 @@
         border-top-style: solid;
         border-top-width: 1px;
         border-top-color: @darkgrey;
+
+        &.shareable {
+          padding-left: 30px;
+          background-position: left center;
+          background-repeat: no-repeat;
+
+          &.loading {
+            background-image: url('/assets/spinner-small.gif');
+          }
+          &.shared {
+            background-image: url('/assets/check.png');
+          }
+        }
 
         a {
           margin-left: 5px;

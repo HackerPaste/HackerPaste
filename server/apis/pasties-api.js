@@ -50,12 +50,16 @@ PastiesAPI.put(
   API.fetchGroups,
   function (req, res) {
     // create an array of group_ids that the user can share with
-    var shareableGroups = req.groups.reduce((res, group) => {
-      if (group.user_role === 'instructor' || group.user_role === 'fellow') {
-        res.push(group.uid)
-      }
-    }, []);
 
+    var shareableGroups = req.groups.map(Object.pick('uid'));
+
+    // NOTE: UNCOMMENT THE FOLLOWING TO DENY STUDENTS #REKT
+    // var shareableGroups = req.groups.reduce((res, group) => {
+    //   if (group.user_role === 'instructor' || group.user_role === 'fellow') {
+    //     res.push(group.uid)
+    //   }
+    // }, []);
+    //
     if (~shareableGroups.indexOf(req.params.group_uid)) {
       Share.create(req.params.pastie_id, [{
         subject_type: 'Group',

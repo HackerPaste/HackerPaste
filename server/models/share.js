@@ -12,8 +12,16 @@ Share.create = function(pastie_id, subjects){
 	    subject_uid: sub.subject_uid
 	  };
 	});
-	return db('pasties_subjects').insert(shares)
-	.then((result) => result);
+
+  return db('pasties').where('id', pastie_id)
+    .then(rows => {
+      if (!rows.length) {
+        throw new Pastie.NotFound(pastie_id);
+      }
+      return db('pasties_subjects').insert(shares)
+    	.then(result => result);
+    })
+
 }
 
 
@@ -39,11 +47,3 @@ Share.delete = function (pastie_id, subjects) {
   }).del()
   .then((result) => result);
 }
-
-
-
-
-
-
-
-

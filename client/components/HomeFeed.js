@@ -1,9 +1,10 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
-var FeedList = require('./FeedList')
-var MyPastiesBox = require('./MyPastiesBox')
-var MyGroupsBox = require('./MyGroupsBox')
+var FeedList = require('./FeedList');
+var MyPastiesBox = require('./MyPastiesBox');
+var MyGroupsBox = require('./MyGroupsBox');
+var LoginBox = require('./LoginBox');
 
 module.exports = (props) => (
   <div className="container">
@@ -19,7 +20,7 @@ module.exports = (props) => (
           </div>
         :
         <div className="aside">
-          {/*<SideLoginBox />*/}
+          <LoginBox />
         </div>
       }
     </div>
