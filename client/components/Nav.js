@@ -12,7 +12,7 @@ const nav = module.exports = (props) => (
         <input className="search" type="text" placeholder="Search pasties"></input>
       </form>
       <div className="nav-side">
-        <a href="/api/me" className="create-button">CREATE</a>
+        <a href="/create" className="create-button">CREATE</a>
         <a href="/auth/makerpass" className="sign-in" id="signInBtn">SIGN IN</a>
       </div>
     </div>

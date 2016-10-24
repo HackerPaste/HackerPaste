@@ -5,20 +5,23 @@ var FeedList = require('./FeedList')
 var MyPastiesBox = require('./MyPastiesBox')
 var MyGroupsBox = require('./MyGroupsBox')
 
-const HomeFeed = module.exports = (props) => {
-
-  return <div className="container">
+module.exports = (props) => (
+  <div className="container">
     <div className="row">
       <div className="content">
-        <FeedList /> //FeedList link
+        <FeedList user={props.user} selected={props.selected ? props.selected : 'Feed'} />
       </div>
-
-      <div className="aside">
-        <MyGroupsBox /> //GroupBox link
-        <MyPastiesBox />
-      </div>
-
+      {
+        props.user ?
+          <div className="aside">
+            <MyGroupsBox groups={props.groups} />
+            <MyPastiesBox user={props.user} />
+          </div>
+        :
+        <div className="aside">
+          {/*<SideLoginBox />*/}
+        </div>
+      }
     </div>
   </div>
-
-}
+)

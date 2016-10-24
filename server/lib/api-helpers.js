@@ -30,3 +30,10 @@ API.requireAuth = function(req, res, next) {
   }
   res.status(401).send( { reason: 'not_logged_in' } );
 };
+
+
+API.catchUnexpectedErrors = function (res) {
+  return function (err) {
+    res.status(500).send(err);
+  }
+}

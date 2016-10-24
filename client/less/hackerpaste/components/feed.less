@@ -18,15 +18,15 @@
         text-decoration: none;
         transition: 0.3s;
         font-size: 17px;
+        &:hover {
+          background-color: #ddd;
+        }
+
+        &.active {
+          background-color: #ccc;
+        }
       }
 
-      a:hover {
-        background-color: #ddd;
-      }
-
-      a:focus {
-        background-color: #ccc;
-      }
     }
   }
 
@@ -41,6 +41,7 @@
 
       p {
         white-space: nowrap;
+        text-overflow: ellipsis;
       }
     }
   }

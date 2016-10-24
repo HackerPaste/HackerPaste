@@ -6,33 +6,53 @@ module.exports =  class Create extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {value: ""};
-    this.handleChange = this.handleChange.bind(this);
+    this.state = {
+      contents: "",
+      title: "",
+      public: false
+    };
+    this.handleContentsChange = this.handleContentsChange.bind(this);
+    this.handleTitleChange = this.handleTitleChange.bind(this);
+    this.handlePublicChange = this.handlePublicChange.bind(this);
+
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(event) {
-    this.setState({value: event.target.value});
+  handleContentsChange(event) {
+    this.setState({contents: event.target.value});
+  }
+
+  handleTitleChange(event) {
+    this.setState({title: event.target.value});
+  }
+
+  handlePublicChange(event) {
+    this.setState({public: !this.state.public});
   }
 
   handleSubmit(event) {
-    alert("Text field value is: '" + this.state.value + "'");
-    //TODO
-    console.log("this.state.value: ", this.state.value)
     axios({
       method: 'post',
       url: '/api/pasties',
-      data: this.state.value //ERROR
+      data: {
+        contents: this.state.contents,
+        title: this.state.title,
+        public: this.state.public
+      }
       })
   }
 
   render() {
-    return <div className="container">
-    <button type="submit" onClick={this.handleSubmit}>Submit</button>
-    <textarea className="text-input" type="text" placeholder="enter text"
-      value={this.state.value} onChange={this.handleChange}>
-    </textarea>
-  </div>
+    return (
+      <div className="container">
+        <button type="submit" onClick={this.handleSubmit}>Submit</button>
+        <input type="text" className="pastieTitle" placeholder="enter title" onChange={this.handleTitleChange}/>
+        <input type="checkbox" className="pastiePublic" checked={this.state.public} onChange={this.handlePublicChange}/>
+        <textarea className="text-input" type="text" placeholder="enter text"
+            value={this.state.value} onChange={this.handleContentsChange}>
+        </textarea>
+      </div>
+    )
   }
 
 }

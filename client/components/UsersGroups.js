@@ -5,8 +5,7 @@ var FeedList = require('./FeedList')
 var MyProfileBox = require('./MyProfileBox')
 var MyGroupsBox = require('./MyGroupsBox')
 
-const UsersGroups = module.exports = (props) => (
-
+module.exports = (props) => (
   <div className="container">
     <div className="row">
 

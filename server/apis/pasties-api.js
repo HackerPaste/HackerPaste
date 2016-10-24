@@ -3,13 +3,6 @@ var Pastie = require('../models/pastie')
 var Share = require('../models/share')
 var PastiesAPI = module.exports = require('express').Router()
 
-PastiesAPI.get('/pasties/:id', API.fetchGroups, function (req, res) {
-  Pastie.find(req.params.id, req.user.uid, req.groups.map(Object.pick('uid')))
-    .then(API.prep(200, res))
-    .catch(Pastie.NotFound, API.prep(404, res))
-    .catch(Pastie.PermissionDenied, API.prep(403, res))
-    .catch(API.catchUnexpectedErrors)
-})
 
 PastiesAPI.get('/pasties', API.requireAuth, API.fetchGroups, function(req, res) {
   Pastie.feedForUser( req.user.uid, req.groups.map(Object.pick('uid')))
@@ -23,6 +16,14 @@ PastiesAPI.get('/pasties/public', function(req, res) {
     .then(API.prep(200, res))
     .catch( API.catchUnexpectedErrors )
 });
+
+PastiesAPI.get('/pasties/:id', API.fetchGroups, function (req, res) {
+  Pastie.find(req.params.id, req.user.uid, req.groups.map(Object.pick('uid')))
+  .then(API.prep(200, res))
+  .catch(Pastie.NotFound, API.prep(404, res))
+  .catch(Pastie.PermissionDenied, API.prep(403, res))
+  .catch(API.catchUnexpectedErrors)
+})
 
 PastiesAPI.post('/pasties', function(req, res) {
   Pastie.create(req.body, req.user.uid)

@@ -1,7 +1,7 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
-const MyGroupsBox = module.exports = (props) => (
+module.exports = (props) => (
   <div className="box">
     <div className="box-title">
       <img className="avatar"/>
