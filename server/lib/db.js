@@ -4,6 +4,8 @@ var config = require('../../knexfile.js')
 var env = process.env.NODE_ENV || 'development'
 var db = require('knex')(config[env])
 
+db.migrate.latest([config]);
+
 // Export the db object, which will be able to make database connections
 module.exports = db
 
@@ -11,7 +13,7 @@ module.exports = db
 db.deleteEverything = function () {
   // Do nothing if we're not in the test suite
   if (env !== 'test') return Promise.reject();
-  
+
   // If we're testing, empty our tables
   return Promise.all([
     db('favorites').truncate(),
