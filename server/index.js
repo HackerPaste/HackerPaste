@@ -1,4 +1,6 @@
-require('dotenv').config();
+if (!process.env.MAKERPASS_CLIENT_ID || !process.env.MAKERPASS_CLIENT_SECRET) {
+  require('dotenv').config();
+}
 var browserify = require('browserify-middleware')
 var express = require('express')
 var cookieSession = require('cookie-session');
