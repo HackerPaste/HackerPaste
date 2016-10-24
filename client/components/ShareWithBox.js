@@ -12,7 +12,7 @@ module.exports = (props) => (
       <ul className="box-list">
         {
           props.groups.map((group, index) => (
-            <Shareable key={index} group={group} pastie_id={props.pastie.id} />
+            <Shareable key={group.uid} group={group} pastie_id={props.pastie.id} />
           ))
         }
       </ul>

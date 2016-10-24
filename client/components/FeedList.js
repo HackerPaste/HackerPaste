@@ -76,7 +76,7 @@ module.exports = class FeedList extends React.Component {
           :(<ul className="feed-list">
             {
               this.state.pasties.length
-                ? this.state.pasties.map(pastie => <FeedListItem pastie={pastie} />)
+                ? this.state.pasties.map(pastie => <FeedListItem key={pastie.id} pastie={pastie} />)
               : <li>There are no pasties in this feed</li>
             }
           </ul>)

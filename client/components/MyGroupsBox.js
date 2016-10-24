@@ -9,7 +9,7 @@ module.exports = (props) => (
     <div className="box-list-container">
       <ul className="box-list">
         {props.groups.map((group, index) => {
-          return <li key={index}><a href={`/groups/${group.uid}`}>{group.name}</a></li>
+          return <li key={group.uid}><a href={`/groups/${group.uid}`}>{group.name}</a></li>
         })}
       </ul>
     </div>

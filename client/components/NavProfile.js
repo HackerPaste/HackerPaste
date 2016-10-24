@@ -22,7 +22,6 @@ module.exports = class NavProfile extends React.Component {
         <span className="user-name">{this.props.user.name}</span>
         <ul
           className={`nav-profile-dropdown ${this.state.open ? 'open' : 'closed'}`}
-          onClick={e => e.stopPropagation()}
         >
           <li><Link href="/me">My Profile</Link></li>
           <li><Link href="/logout">Logout</Link></li>
