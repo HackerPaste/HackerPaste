@@ -3,7 +3,6 @@ var Pastie = require('../models/pastie')
 var Share = require('../models/share')
 var PastiesAPI = module.exports = require('express').Router()
 
-
 PastiesAPI.get('/pasties', API.requireAuth, API.fetchGroups, function(req, res) {
   Pastie.feedForUser( req.user.uid, req.groups.map(Object.pick('uid')))
     .then( API.prep(200, res) )
@@ -60,7 +59,7 @@ PastiesAPI.put(
     //   }
     // }, []);
     //
-    if (~shareableGroups.indexOf(req.params.group_uid)) {
+    if (shareableGroups.includes(req.params.group_uid)) {
       Share.create(req.params.pastie_id, [{
         subject_type: 'Group',
         subject_uid: req.params.group_uid

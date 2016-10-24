@@ -77,9 +77,10 @@ class Router extends React.Component {
     });
 
     route('/groups/:group_id', ctx => {
-      var group = ctx.groups.filter(v => {
+      var group = ctx.groups.find(v => {
         return v.uid === ctx.params.group_id
-      })[0]
+      });
+      
       this.setState({
         component: <Groups group={group} />
       })
