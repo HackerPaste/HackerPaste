@@ -7,13 +7,38 @@ var Pastie = module.exports;
 // TODO: Find multiple pasties by user, group, tags, and/or search terms
 
 // For finding a single pastie from a given id
-Pastie.find = function (id) {
+Pastie.find = function (pastie_id, user_uid, group_uids) {
+  return db('pasties').where('id', pastie_id)
+    .then(rows => {
+      if (!rows.length) {
+        throw new Pastie.NotFound(pastie_id);
+      }
 
-  return db('pasties').where({id: id}).limit(1)
-    .then(function (rows) {
-      // if no pastie is found with this id, throw an error
-      if (rows.length === 0) { throw new Pastie.NotFound(id) }
-      return rows[0]
+      var pastie = rows[0]
+      if (pastie.public || pastie.user_uid === user_uid) {
+        return pastie;
+      }
+
+      if (!user_uid) {
+        throw new Pastie.PermissionDenied();
+      }
+
+      return db('pasties_subjects').where('pastie_id', pastie_id)
+        .andWhere(function () {
+          this.where(function () {
+            this.where('subject_type', 'User')
+              .andWhere('subject_uid', user_uid)
+          })
+          .orWhere(function () {
+            this.where('subject_type', 'Group')
+              .whereIn('subject_uid', group_uids)
+          });
+        }).then(rows => {
+          if (!rows.length) {
+            throw new Pastie.PermissionDenied();
+          }
+          return pastie;
+        });
     });
 };
 
@@ -30,7 +55,7 @@ Pastie.feedForUser = function (userId, groupIds, obj ) {
     .select('pasties.*')
     .orderBy('pasties_subjects.created_at', 'desc')
     // .limit(10)   NUMBER OF PASTIES IN USER FEED STILL UNDECIDED
-    
+
     .then(function(rows){
       return rows;
     });

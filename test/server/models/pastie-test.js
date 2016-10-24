@@ -50,7 +50,7 @@ describe('Pastie Model', function () {
     });
 
     it_('should find existing pasties', function * () {
-      var pastie = yield Pastie.create(pasties[0])
+      var pastie = yield Pastie.create(pasties[0], 'user_alice')
         .then(newPastie => Pastie.find(newPastie.id, 'user_alice', ['g1', 'g2']))
 
       expect(pastie).to.be.an('object');
@@ -78,8 +78,8 @@ describe('Pastie Model', function () {
       it_('should reject with an error for users without permission', function * () {
         var error, pastie_id;
 
-        pastie_id = yield Pastie.create(pasties[1])
-          .then(newPastie => newPastie.id);
+        pastie_id = yield db('pasties').insert(pasties[1], 'id')
+          .then(id => id[0]);
 
         error = yield Pastie.find(pastie_id, 'user_bob', ['g1', 'g3'])
           .catch(err => err); // ensure error is caught
@@ -95,8 +95,8 @@ describe('Pastie Model', function () {
       it_('should return the pastie for the user who created it', function * () {
         var pastie_id, pastie;
 
-        pastie_id = yield Pastie.create(pasties[1])
-          .then(newPastie => newPastie.id);
+        pastie_id = yield db('pasties').insert(pasties[1], 'id')
+          .then(id => id[0]);
 
         pastie = yield Pastie.find(pastie_id, 'user_alice', ['g1', 'g2'])
 
@@ -108,14 +108,16 @@ describe('Pastie Model', function () {
       it_('should return the pastie for users it is shared with', function * () {
         var pastie_id, pastie;
 
-        pastie_id = yield Pastie.create(pasties[1])
-          .then(newPastie => newPastie.id);
+        pastie_id = yield db('pasties').insert(pasties[1], 'id')
+          .then(id => id[0]);
 
         var pastiesSubjects = {
           pastie_id: pastie_id,
           subject_type: 'User',
           subject_uid: 'user_bob'
         };
+
+        yield db('pasties_subjects').insert(pastiesSubjects)
 
         pastie = yield Pastie.find(pastie_id, 'user_bob', ['g1', 'g3'])
 
@@ -127,14 +129,16 @@ describe('Pastie Model', function () {
       it_('should return the pastie for members of groups it is shared with', function * () {
         var pastie_id, pastie;
 
-        pastie_id = yield Pastie.create(pasties[1])
-          .then(newPastie => newPastie.id);
+        pastie_id = yield db('pasties').insert(pasties[1], 'id')
+          .then(id => id[0]);
 
         var pastiesSubjects = {
           pastie_id: pastie_id,
           subject_type: 'Group',
           subject_uid: 'g3'
         };
+
+        yield db('pasties_subjects').insert(pastiesSubjects)
 
         pastie = yield Pastie.find(pastie_id, 'user_bob', ['g1', 'g3'])
 
@@ -146,8 +150,8 @@ describe('Pastie Model', function () {
       it_('should always return the pastie if it is public', function * () {
         var pastie_id, pastie;
 
-        pastie_id = yield Pastie.create(pasties[2])
-          .then(newPastie => newPastie.id);
+        pastie_id = yield db('pasties').insert(pasties[2], 'id')
+          .then(id => id[0]);
 
         // notice no user or groups are given
         pastie = yield Pastie.find(pastie_id);
