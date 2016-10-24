@@ -1,7 +1,7 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
-var Link = require('./Link')
-var Pastie = require('../models/pastie')
+var Link = require('./Link');
+var Pastie = require('../models/pastie');
 
 module.exports = class FeedList extends React.Component {
   constructor(props) {
@@ -27,7 +27,7 @@ module.exports = class FeedList extends React.Component {
       <ul className="feed-list">
         {
           this.state.pasties.map(pastie => {
-            return <li><Link href='#'>{pastie.title}</Link>
+            return <li><Link href={`/pasties/${pastie.id}`}>{pastie.title}</Link>
               <p>{pastie.contents}</p>
             </li>
           })
