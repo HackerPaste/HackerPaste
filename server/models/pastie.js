@@ -15,6 +15,14 @@ Pastie.find = function (pastie_id, user_uid, group_uids) {
       }
 
       var pastie = rows[0]
+      var oneMonth = 30 * 24 * 60 * 60 * 1000
+      if(pastie.user_uid === null && pastie.created_at < new Date().getTime() - (oneMonth)) {
+        return db('pasties').where('id', pastie_id).del()
+        .then(function() {
+          throw new Pastie.NotFound(pastie_id)
+        })
+      }
+
       if (pastie.public || pastie.user_uid === user_uid) {
         return pastie;
       }
