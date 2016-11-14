@@ -35,12 +35,12 @@ module.exports = class FeedList extends React.Component {
   }
 
   componentDidMount() {
-    this.changeTab(this.tabs.filter(tab => tab.text === this.props.selected)[0])
+    this.changeTab(this.tabs.find(tab => tab.text === this.props.selected))
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.selected !== this.props.selected) {
-      this.changeTab(this.tabs.filter(tab => tab.text === nextProps.selected)[0])
+      this.changeTab(this.tabs.find(tab => tab.text === nextProps.selected))
     }
   }
 
@@ -72,11 +72,11 @@ module.exports = class FeedList extends React.Component {
         </ul>
         {
           this.state.loading
-            ? (<div className="spinner"></div>)
+          ? (<div className="spinner"></div>)
           :(<ul className="feed-list">
             {
               this.state.pasties.length
-                ? this.state.pasties.map(pastie => <FeedListItem key={pastie.id} pastie={pastie} />)
+              ? this.state.pasties.map(pastie => <FeedListItem key={pastie.id} pastie={pastie} />)
               : <li>There are no pasties in this feed</li>
             }
           </ul>)
@@ -89,6 +89,6 @@ module.exports = class FeedList extends React.Component {
 
 const FeedListItem = ({pastie}) => (
   <li><Link href={`/pasties/${pastie.id}`}>{pastie.title}</Link>
-    <p>{pastie.contents}</p>
+    <div className="preview">{pastie.contents}</div>
   </li>
 )
