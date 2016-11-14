@@ -47,13 +47,13 @@ module.exports = class FeedList extends React.Component {
               <ul className="feed-list">
                 {
                   this.state.loading
-                    ? (<div className="spinner"></div>)
+                  ? (<div className="spinner"></div>)
                   :(<ul className="feed-list">
                     {
                       this.state.pasties.length
                       ? this.state.pasties.map(pastie =>
                         <li key={pastie.id}><Link href={`/pasties/${pastie.id}`}>{pastie.title}</Link>
-                          <p>{pastie.contents}</p>
+                          <div className="preview">{pastie.contents}</div>
                         </li>)
                       : <li>There are no pasties in this feed</li>
                     }
