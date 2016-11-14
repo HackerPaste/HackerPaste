@@ -8,6 +8,7 @@ module.exports = class FeedList extends React.Component {
     super(props)
 
     this.state = {
+      loading: true,
       pasties: [],
     }
   }
@@ -15,7 +16,7 @@ module.exports = class FeedList extends React.Component {
   componentDidMount() {
     Pastie.ownedByUser(this.props.user.uid)
       .then(pasties => {
-        this.setState({ pasties: pasties});
+        this.setState({ loading: false, pasties: pasties });
       })
       .catch(console.log);
   }
@@ -24,15 +25,21 @@ module.exports = class FeedList extends React.Component {
     return (
       <div className="feed">
         <h3>My Pasties</h3>
-        <ul className="feed-list">
-          {
-            this.state.pasties.map(pastie => {
-              return <li key={pastie.id}><Link href={`/pasties/${pastie.id}`}>{pastie.title}</Link>
-                <p>{pastie.contents}</p>
-              </li>
-            })
-          }
-        </ul>
+        {
+          this.state.loading ?
+            <div className="spinner"></div>
+          : (
+            <ul className="feed-list">
+              {
+                this.state.pasties.map(pastie => {
+                  return <li key={pastie.id}><Link href={`/pasties/${pastie.id}`}>{pastie.title}</Link>
+                    <div className="preview">{pastie.contents}</div>
+                  </li>
+                })
+              }
+            </ul>
+          )
+        }
       </div>
     )
   }
